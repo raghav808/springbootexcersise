@@ -10,6 +10,8 @@ import com.raghavrs.bankapp.entity.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
+	
+	//fetch transactions for provided account number and date
 	@Query("select new com.raghavrs.bankapp.dto.response.AccountMonthlySummaryDTO(trn.transactionNumber,trn.transactionDate,trn.amount,"
 			+ "case "
 			+ "when trn.fromAccount = :accountNumber "
