@@ -2,15 +2,17 @@ package com.raghavrs.bankapp.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -37,8 +39,8 @@ public class Customer {
 	@CreatedDate
 	private LocalDateTime whenCreated;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	private Account account;
+	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	private List<Account> accounts;
 
 	public Long getId() {
 		return id;
@@ -96,14 +98,6 @@ public class Customer {
 		this.whenCreated = whenCreated;
 	}
 
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
 	public LocalDate getDob() {
 		return dob;
 	}
@@ -112,12 +106,20 @@ public class Customer {
 		this.dob = dob;
 	}
 
+	public List<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
+	}
+
 	public Customer() {
 		super();
 	}
 
 	public Customer(Long id, String firstName, String lastName, String gender, String email, String phone,
-			LocalDate dob, LocalDateTime whenCreated, Account account) {
+			LocalDate dob, LocalDateTime whenCreated, List<Account> accounts) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -127,7 +129,8 @@ public class Customer {
 		this.phone = phone;
 		this.dob = dob;
 		this.whenCreated = whenCreated;
-		this.account = account;
+		this.accounts = accounts;
 	}
 
+	
 }
