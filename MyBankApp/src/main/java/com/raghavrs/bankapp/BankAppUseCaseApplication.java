@@ -10,7 +10,6 @@ public class BankAppUseCaseApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BankAppUseCaseApplication.class, args);
-		System.out.println("Hello");
 	}
 
 }
