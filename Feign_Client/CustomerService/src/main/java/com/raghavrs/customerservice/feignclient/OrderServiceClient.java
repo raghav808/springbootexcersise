@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.raghavrs.customerservice.dto.OrderDTO;
 
-@FeignClient(value = "order-service",url = "http://localhost:8081/orders")
+//@FeignClient(value = "order-service",url = "http://localhost:8081/orders")
+@FeignClient(name = "http://ORDER-SERVICE/orders")
 public interface OrderServiceClient {
 
 	@GetMapping("/{customerId}")
