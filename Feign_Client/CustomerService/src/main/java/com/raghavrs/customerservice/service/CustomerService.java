@@ -15,5 +15,7 @@ public interface CustomerService {
 	CustomerOrdersDTO getOrdersByCustomerId(Long id);
 
 	CustomerOrdersDTO getCustomerOrders(Long id, OrderDTO order);
+	
+	String getPort();
 
 }

@@ -38,6 +38,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 	}
 
+	
 
 	@Override
 	public List<CustomerDTO> getAllCustomers() {
@@ -58,6 +59,11 @@ public class CustomerServiceImpl implements CustomerService{
 	public CustomerOrdersDTO getCustomerOrders(Long id, OrderDTO order) {
 		return new CustomerOrdersDTO(getCustomerById(id), orderServiceClient.getUpdatedOrdersByCustomerId(id,order));
 //		return null;
+	}
+
+	@Override
+	public String getPort() {
+		return orderServiceClient.getPort();
 	}
 
 }

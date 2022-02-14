@@ -19,4 +19,7 @@ public interface OrderServiceClient {
 	
 	@PostMapping("/{customerId}")
 	List<OrderDTO> getUpdatedOrdersByCustomerId(@PathVariable Long customerId, @RequestBody OrderDTO order);
+	
+	@GetMapping("/port")
+	String getPort();
 }
