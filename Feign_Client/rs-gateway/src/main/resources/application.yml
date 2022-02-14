@@ -1,0 +1,24 @@
+server:
+  port: 8888
+  
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+      
+spring:
+  application:
+    name: rs-gateway
+  cloud:
+    gateway:
+      routes:
+      - id: customer
+        uri: lb://customer-service
+        predicates:
+        - Path=/customer/**
+      - id: orders
+        uri: lb://order-service
+        predicates:
+        - Path=/orders/**
