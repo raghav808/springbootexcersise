@@ -15,8 +15,8 @@ import com.raghavrs.customerservice.dto.OrderDTO;
 public interface OrderServiceClient {
 
 	@GetMapping("/{customerId}")
-	public List<OrderDTO> getOrdersByCustomerId(@PathVariable Long customerId);
+	List<OrderDTO> getOrdersByCustomerId(@PathVariable Long customerId);
 	
 	@PostMapping("/{customerId}")
-	public List<OrderDTO> getUpdatedOrdersByCustomerId(@PathVariable Long customerId, @RequestBody OrderDTO order);
+	List<OrderDTO> getUpdatedOrdersByCustomerId(@PathVariable Long customerId, @RequestBody OrderDTO order);
 }
