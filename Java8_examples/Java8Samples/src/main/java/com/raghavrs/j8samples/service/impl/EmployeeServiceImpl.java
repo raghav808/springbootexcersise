@@ -29,8 +29,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	static {
 		try (CSVReader reader = new CSVReader(new FileReader(filepath))) {
 			employees = reader.readAll().stream().map(emps -> {
-				Employee e = new Employee(Integer.valueOf(emps[0]), emps[1], emps[2], emps[3], LocalDate.parse(emps[5]),
-						LocalDateTime.parse(emps[6]));
+				Employee e = new Employee(Integer.valueOf(emps[0]), emps[1], emps[2], emps[3], LocalDate.parse(emps[4]),
+						LocalDateTime.parse(emps[5]));
 				return e;
 			}).toList();
 		} catch (Exception e) {
@@ -67,8 +67,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<LocalDate> getNextWeekWorkingDays(LocalDate startDate) {
-		LocalDate nextMonday = startDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY));
+	public List<LocalDate> getNextWeekWorkingDays() {
+		LocalDate nextMonday = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY));
 		long daysBetween = ChronoUnit.DAYS.between(nextMonday,
 				nextMonday.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)));
 
@@ -81,9 +81,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Employee> getEmployeeExperienced() {		
-		return employees.stream().filter(emp -> emp.getDesignation().equals("Technical Lead"))
-				.filter(emp -> ChronoUnit.YEARS.between(emp.getDoj(), LocalDate.now()) > 7)
+	public List<Employee> getEmployeeExperienced() {	
+		
+		LocalDateTime now = LocalDateTime.now();
+		Predicate<Employee> isGreaterThan7Yr = e -> ChronoUnit.YEARS.between(e.getDoj(), now) > 10;
+		Predicate<Employee> isTechLead = e -> e.getDesignation().equals("Technical Lead");
+		return employees.stream()
+				.filter(isTechLead.and(isGreaterThan7Yr))
+//				.filter(emp -> emp.getDesignation().equals("Technical Lead"))
+//				.filter(emp -> ChronoUnit.YEARS.between(emp.getDoj(), LocalDate.now()) > 7)
 				.collect(Collectors.toList());
 	}
 	

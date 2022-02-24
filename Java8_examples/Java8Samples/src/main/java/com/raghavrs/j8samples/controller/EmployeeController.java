@@ -49,8 +49,8 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/next-week-working-days")
-	public List<LocalDate> nextWeekWorkingDays(@RequestParam @DateTimeFormat(pattern="dd-MM-yyyy") LocalDate fromDate){
-		return employeeService.getNextWeekWorkingDays(fromDate);
+	public List<LocalDate> nextWeekWorkingDays(){
+		return employeeService.getNextWeekWorkingDays();
 	}
 	
 	@GetMapping
