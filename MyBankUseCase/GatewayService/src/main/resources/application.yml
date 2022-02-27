@@ -1,0 +1,32 @@
+server:
+  port: 8888
+  
+#eureka 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    
+# API Gate way
+spring:
+  application:
+    name: mybank-gateway
+  cloud:
+    gateway:
+      routes:
+      - id: customer
+        uri: lb://customer-service
+        predicates:
+        - Path=/customer/
+      - id: fundtransfer
+        uri: lb://fundtransfer-service
+        predicates:
+        - Path=/customer/account/
+      - id: statement
+        uri: lb://statement-service
+        predicates:
+        - Path=/customer/account/statement/
+
+        
