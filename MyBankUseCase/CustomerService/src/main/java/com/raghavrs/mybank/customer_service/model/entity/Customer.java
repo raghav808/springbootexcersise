@@ -39,9 +39,6 @@ public class Customer {
 	@CreatedDate
 	private LocalDateTime whenCreated;
 	
-	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Account> accounts;
-	
 	public Long getId() {
 		return id;
 	}
@@ -90,14 +87,9 @@ public class Customer {
 	public void setWhenCreated(LocalDateTime whenCreated) {
 		this.whenCreated = whenCreated;
 	}
-	public Set<Account> getAccounts() {
-		return accounts;
-	}
-	public void setAccounts(Set<Account> accounts) {
-		this.accounts = accounts;
-	}
+
 	public Customer(Long id, String firstName, String lastName, String gender, String email, Long phone,
-			LocalDate dob, LocalDateTime whenCreated, Set<Account> accounts) {
+			LocalDate dob, LocalDateTime whenCreated) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -107,7 +99,6 @@ public class Customer {
 		this.phone = phone;
 		this.dob = dob;
 		this.whenCreated = whenCreated;
-		this.accounts = accounts;
 	}
 	public Customer() {
 		super();

@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.raghavrs</groupId>
-	<artifactId>FundTransferService</artifactId>
+	<artifactId>TransactionService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>FundTransferService</name>
+	<name>TransactionService</name>
 	<description>My Bank usecase</description>
 	<properties>
 		<java.version>11</java.version>

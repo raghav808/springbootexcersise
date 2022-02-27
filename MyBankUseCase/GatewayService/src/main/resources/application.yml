@@ -19,14 +19,14 @@ spring:
       - id: customer
         uri: lb://customer-service
         predicates:
-        - Path=/customer/
-      - id: fundtransfer
-        uri: lb://fundtransfer-service
+        - Path=/customer/**
+      - id: account
+        uri: lb://account-service
         predicates:
-        - Path=/customer/account/
-      - id: statement
-        uri: lb://statement-service
+        - Path=/account/**
+      - id: transaction
+        uri: lb://transaction-service
         predicates:
-        - Path=/customer/account/statement/
+        - Path=/transaction/**
 
         
