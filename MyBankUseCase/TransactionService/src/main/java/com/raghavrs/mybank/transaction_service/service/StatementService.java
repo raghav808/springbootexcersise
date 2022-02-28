@@ -7,7 +7,7 @@ import com.raghavrs.mybank.transaction_service.model.dto.response.AccountMonthly
 public interface StatementService {
 
 	List<AccountMonthlySummaryDTO> monthlyStatement(Long accountNumber, int year, int month);
-
-	List<AccountMonthlySummaryDTO> monthlyStatementWithPhoneNumber(Long phoneNumber, int year, int month);
+//
+//	List<AccountMonthlySummaryDTO> monthlyStatementWithPhoneNumber(Long phoneNumber, int year, int month);
 
 }

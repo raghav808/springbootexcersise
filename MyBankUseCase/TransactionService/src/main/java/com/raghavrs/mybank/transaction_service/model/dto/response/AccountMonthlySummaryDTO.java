@@ -11,8 +11,11 @@ public class AccountMonthlySummaryDTO {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime transactionDate;
 	private BigDecimal amount;
-	private String transactionType;
 	private Long otherAccount;
+	private String transactionType;
+	private String comments;
+	private String transactionMode;
+	
 	public String getTransactionNumber() {
 		return transactionNumber;
 	}
@@ -43,14 +46,28 @@ public class AccountMonthlySummaryDTO {
 	public void setOtherAccount(Long otherAccount) {
 		this.otherAccount = otherAccount;
 	}
+	public String getTransactionMode() {
+		return transactionMode;
+	}
+	public void setTransactionMode(String transactionMode) {
+		this.transactionMode = transactionMode;
+	}
+	public String getComments() {
+		return comments;
+	}
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
 	public AccountMonthlySummaryDTO(String transactionNumber, LocalDateTime transactionDate, BigDecimal amount,
-			String transactionType, Long otherAccount) {
+			String transactionType, Long otherAccount, String comments, String transactionMode) {
 		super();
 		this.transactionNumber = transactionNumber;
 		this.transactionDate = transactionDate;
 		this.amount = amount;
 		this.transactionType = transactionType;
 		this.otherAccount = otherAccount;
+		this.comments = comments;
+		this.transactionMode = transactionMode;
 	}
 	public AccountMonthlySummaryDTO() {
 		super();

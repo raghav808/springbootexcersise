@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.raghavrs.mybank.account_service.exception.CustomException;
 import com.raghavrs.mybank.account_service.model.dto.request.FundTransferDTO;
 import com.raghavrs.mybank.account_service.model.dto.request.FundTransferWithPhoneDTO;
+import com.raghavrs.mybank.account_service.model.dto.response.AccountDTO;
 import com.raghavrs.mybank.account_service.service.AccountService;
 
 @RestController
@@ -44,7 +45,7 @@ public class AccountController {
 	}
 	
 	@PostMapping("/")
-	public Long addAccount(@RequestParam Long customerId) {
+	public AccountDTO addAccount(@RequestParam Long customerId) {
 		return accountService.addAccount(customerId);
 	}
 }

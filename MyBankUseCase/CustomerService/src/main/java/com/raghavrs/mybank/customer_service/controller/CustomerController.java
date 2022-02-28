@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.raghavrs.mybank.customer_service.exception.CustomException;
 import com.raghavrs.mybank.customer_service.model.dto.request.CustomerDTO;
+import com.raghavrs.mybank.customer_service.model.dto.response.CustomerResponseDTO;
 import com.raghavrs.mybank.customer_service.service.CustomerService;
 
 @RestController
@@ -23,7 +24,7 @@ public class CustomerController {
 	private CustomerService customerService;
 	
 	@PostMapping("/")
-	public String addCustomer(@RequestBody @Valid CustomerDTO customer) throws CustomException {
+	public CustomerResponseDTO addCustomer(@RequestBody @Valid CustomerDTO customer) throws CustomException {
 		if (Period.between(customer.getDob(), LocalDate.now()).getYears() < 18) {
 			throw new CustomException("18 is the minimum Age limit");
 		}

@@ -14,44 +14,37 @@ import com.raghavrs.mybank.transaction_service.model.dto.response.AccountMonthly
 import com.raghavrs.mybank.transaction_service.service.StatementService;
 
 @RestController
-@RequestMapping("/statement")
 public class StatementController {
 	@Autowired
 	private StatementService statementService;
 	
-	@GetMapping("/with-account-number")
+	@GetMapping("/statement")
 	public List<AccountMonthlySummaryDTO> monthlyStatement(@RequestParam Long accountNumber, @RequestParam int year,
 			@RequestParam int month) throws CustomException {
 		if (!(month > 0 & month < 13)) {
 			throw new CustomException("Invalid value for month");
 		}
-		if (LocalDate.now().getYear() < (year-1)) {
+		if (year > LocalDate.now().getYear() & year < 0) {
 			throw new CustomException("Invalid value for year");
 		}
-		if (LocalDate.now().getYear() == year & LocalDate.now().getMonthValue() < month) {
+		if (LocalDate.now().getYear() == year & month > LocalDate.now().getMonthValue()) {
 			throw new CustomException("Invalid value for month");
 		}
 		return statementService.monthlyStatement(accountNumber, year, month);
 	}
 	
-	@GetMapping("/with-phone-number")
-	public List<AccountMonthlySummaryDTO> monthlyStatementWithPhoneNumber(@RequestParam Long phoneNumber, @RequestParam int year,
-			@RequestParam int month) throws CustomException {
-		if (!(month > 0 & month < 13)) {
-			throw new CustomException("Invalid value for month");
-		}
-		if (LocalDate.now().getYear() < (year-1)) {
-			throw new CustomException("Invalid value for year");
-		}
-		if (LocalDate.now().getYear() == year & LocalDate.now().getMonthValue() < month) {
-			throw new CustomException("Invalid value for month");
-		}
-		return statementService.monthlyStatementWithPhoneNumber(phoneNumber, year, month);
-	}
-	
-//	@GetMapping("/monthly-statement")
-//	public List<AccountMonthlySummaryDTO> monthlyStatement(@RequestParam Long accountNumber, @RequestParam int year,
-//			@RequestParam int month){
-//		return fundTransferService.monthyTransaction(accountNumber, year,month);
+//	@GetMapping("/with-phone-number")
+//	public List<AccountMonthlySummaryDTO> monthlyStatementWithPhoneNumber(@RequestParam Long phoneNumber, @RequestParam int year,
+//			@RequestParam int month) throws CustomException {
+//		if (!(month > 0 & month < 13)) {
+//			throw new CustomException("Invalid value for month");
+//		}
+//		if (LocalDate.now().getYear() < (year-1)) {
+//			throw new CustomException("Invalid value for year");
+//		}
+//		if (LocalDate.now().getYear() == year & LocalDate.now().getMonthValue() < month) {
+//			throw new CustomException("Invalid value for month");
+//		}
+//		return statementService.monthlyStatementWithPhoneNumber(phoneNumber, year, month);
 //	}
 }

@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import com.raghavrs.mybank.account_service.exception.CustomException;
 import com.raghavrs.mybank.account_service.feignclient.CustomerServiceFeignClient;
 import com.raghavrs.mybank.account_service.model.dto.request.FundTransferDTO;
 import com.raghavrs.mybank.account_service.model.dto.request.FundTransferWithPhoneDTO;
+import com.raghavrs.mybank.account_service.model.dto.response.AccountDTO;
 import com.raghavrs.mybank.account_service.model.entity.Account;
 import com.raghavrs.mybank.account_service.repository.AccountRepository;
 import com.raghavrs.mybank.account_service.service.AccountService;
@@ -64,7 +66,7 @@ public class AccountServiceImpl implements AccountService{
 //				fromCustomer.getAccounts().stream().findFirst().get().getAccountNumber(),
 //				toCustomer.getAccounts().stream().findFirst().get().getAccountNumber(),
 						fromCustomer.getAccountNumber(), toCustomer.getAccountNumber(),
-						fundTransferWithPhoneDTO.getComments(), fundTransferWithPhoneDTO.getTransactionDate()));
+						fundTransferWithPhoneDTO.getComments()));
 		if(deducted) {
 			return new ArrayList<>(List.of(fromCustomer.getAccountNumber(), toCustomer.getAccountNumber()));
 		}
@@ -73,7 +75,6 @@ public class AccountServiceImpl implements AccountService{
 
 	@Override
 	public Account findByPhone(Long phoneNumber) throws CustomException {
-//		call customer feign
 		return accountRepository.findByCustomerId(customerServiceFeignClient.findAccountByPhone(phoneNumber))
 				.orElseThrow(() -> new CustomException(
 						"Account is unavailable with Phone number - " + phoneNumber));
@@ -87,13 +88,16 @@ public class AccountServiceImpl implements AccountService{
 	}
 
 	@Override
-	public Long addAccount(Long customerId) {
+	public AccountDTO addAccount(Long customerId) {
 		Account account = new Account();
 		account.setAccountBalance(BigDecimal.valueOf(10000));
 		account.setAccountNumber(customerId + 100000);
 		account.setCustomerId(customerId);
 		account.setWhenCreated(LocalDateTime.now());
-		return accountRepository.save(account).getAccountNumber();
+		account = accountRepository.save(account);
+		AccountDTO accountDTO = new AccountDTO(); 
+		BeanUtils.copyProperties(account,accountDTO);
+		return accountDTO;
 	}
 
 }

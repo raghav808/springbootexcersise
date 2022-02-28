@@ -20,10 +20,10 @@ public class FundTransferDTO {
 	@NotNull(message = "To Account is required")
 	private Long toAccount;
 	private String comments;
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@PastOrPresent
-	private LocalDateTime transactionDate;
+//	
+//	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//	@PastOrPresent
+//	private LocalDateTime transactionDate;
 
 	public BigDecimal getAmount() {
 		return amount;
@@ -56,35 +56,29 @@ public class FundTransferDTO {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-
-	public LocalDateTime getTransactionDate() {
-		return transactionDate;
-	}
-
-	public void setTransactionDate(LocalDateTime transactionDate) {
-		this.transactionDate = transactionDate;
-	}
+//
+//	public LocalDateTime getTransactionDate() {
+//		return transactionDate;
+//	}
+//
+//	public void setTransactionDate(LocalDateTime transactionDate) {
+//		this.transactionDate = transactionDate;
+//	}
 
 	public FundTransferDTO(@Min(value = 1, message = "Amount should be greater than 1") BigDecimal amount,
 			@NotNull(message = "From Account is required") Long fromAccount,
-			@NotNull(message = "To Account is required") Long toAccount, String comments,
-			@PastOrPresent LocalDateTime transactionDate) {
+			@NotNull(message = "To Account is required") Long toAccount, String comments) {
+//			@PastOrPresent LocalDateTime transactionDate) {
 		super();
 		this.amount = amount;
 		this.fromAccount = fromAccount;
 		this.toAccount = toAccount;
 		this.comments = comments;
-		this.transactionDate = transactionDate;
+//		this.transactionDate = transactionDate;
 	}
 
 	public FundTransferDTO() {
 		super();
-	}
-
-	@Override
-	public String toString() {
-		return "FundTransferDTO [amount=" + amount + ", fromAccount=" + fromAccount + ", toAccount=" + toAccount
-				+ ", comments=" + comments + ", transactionDate=" + transactionDate + "]";
 	}
 
 	

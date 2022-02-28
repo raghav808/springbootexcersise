@@ -15,15 +15,14 @@ import com.raghavrs.mybank.transaction_service.model.dto.request.FundTransferWit
 import com.raghavrs.mybank.transaction_service.service.FundTransferService;
 
 @RestController
-@RequestMapping("/fundTransfer")
 public class FundTransferController {
 	
 	@Autowired
 	private FundTransferService fundTransferService;
 		
-	@PostMapping("/account-numbers")
+	@PostMapping("/fundTransfer")
 	public String fundTransferUsingAccountNumber(@RequestBody @Valid FundTransferDTO fundTransferDTO) throws CustomException {
-		return fundTransferService.fundTransfer(fundTransferDTO);
+		return "Fund transfer is successfull with transaction id - " + fundTransferService.fundTransfer(fundTransferDTO);
 	}
 	
 	@PostMapping("/phone-numbers")

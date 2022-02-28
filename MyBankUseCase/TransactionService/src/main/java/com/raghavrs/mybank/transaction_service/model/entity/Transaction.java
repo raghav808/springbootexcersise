@@ -26,6 +26,7 @@ public class Transaction {
 	private Long fromAccount;
 	private Long toAccount;
 	private String comments;
+	private String transactionMode;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@CreatedDate
 	private LocalDateTime transactionDate;
@@ -71,8 +72,18 @@ public class Transaction {
 	public void setTransactionDate(LocalDateTime transactionDate) {
 		this.transactionDate = transactionDate;
 	}
+	
+	public String getTransactionMode() {
+		return transactionMode;
+	}
+	public void setTransactionMode(String transactionMode) {
+		this.transactionMode = transactionMode;
+	}
+	public Transaction() {
+		super();
+	}
 	public Transaction(Long id, BigDecimal amount, String transactionNumber, Long fromAccount, Long toAccount,
-			String comments, LocalDateTime transactionDate) {
+			String comments, String transactionMode, LocalDateTime transactionDate) {
 		super();
 		this.id = id;
 		this.amount = amount;
@@ -80,17 +91,7 @@ public class Transaction {
 		this.fromAccount = fromAccount;
 		this.toAccount = toAccount;
 		this.comments = comments;
+		this.transactionMode = transactionMode;
 		this.transactionDate = transactionDate;
 	}
-	public Transaction() {
-		super();
-	}
-	@Override
-	public String toString() {
-		return "Transaction [id=" + id + ", amount=" + amount + ", transactionNumber=" + transactionNumber
-				+ ", fromAccount=" + fromAccount + ", toAccount=" + toAccount + ", comments=" + comments
-				+ ", transactionDate=" + transactionDate + "]";
-	}
-
-	
 }

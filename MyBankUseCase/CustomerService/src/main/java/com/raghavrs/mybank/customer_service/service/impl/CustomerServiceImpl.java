@@ -1,6 +1,8 @@
 package com.raghavrs.mybank.customer_service.service.impl;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.raghavrs.mybank.customer_service.exception.CustomException;
 import com.raghavrs.mybank.customer_service.feignclient.AccountServiceFeignClient;
 import com.raghavrs.mybank.customer_service.model.dto.request.CustomerDTO;
+import com.raghavrs.mybank.customer_service.model.dto.response.AccountDTO;
+import com.raghavrs.mybank.customer_service.model.dto.response.CustomerResponseDTO;
 import com.raghavrs.mybank.customer_service.model.entity.Customer;
 import com.raghavrs.mybank.customer_service.repository.CustomerRepository;
 import com.raghavrs.mybank.customer_service.service.CustomerService;
@@ -24,19 +28,24 @@ public class CustomerServiceImpl implements CustomerService{
 	private AccountServiceFeignClient accountServiceFeignClient;
 	
 	@Override
-	public String addCustomer(CustomerDTO customerDTO) {
+	public CustomerResponseDTO addCustomer(CustomerDTO customerDTO) {
 		Customer customer = new Customer();
 		BeanUtils.copyProperties(customerDTO, customer);
-		customer = customerRepository.save(customer);
-		return "Account number - " + accountServiceFeignClient.addAccount(customer.getId());
+//		customer = customerRepository.save(customer);
+//		accountServiceFeignClient.addAccount(customer.getId());
+		
+		CustomerResponseDTO responseDTO = new CustomerResponseDTO();
+		BeanUtils.copyProperties(customerRepository.save(customer),responseDTO);
+		
+		List<AccountDTO> accountList = new ArrayList<AccountDTO>();
+		accountList.add(accountServiceFeignClient.addAccount(customer.getId()));
+		
+		responseDTO.setAddedAccount(accountList);
+		return responseDTO;
 	}
 
 	@Override
 	public Long findByPhoneNumber(Long phoneNumber) throws CustomException {
-//		return customerRepository.findByPhone(phoneNumber).ifPresentOrElse(customer -> customer.getId(),
-//				() -> {throw new CustomException("Account is unavailable with Phone number - " + phoneNumber);});
-		
-
 		Optional<Customer> optional = customerRepository.findByPhone(phoneNumber);
 		if(optional.isPresent()) {
 			return optional.get().getId();

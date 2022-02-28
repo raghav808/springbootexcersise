@@ -1,6 +1,7 @@
 server:
   port: 8888
   
+  
 #eureka 
 eureka:
   client:
@@ -28,5 +29,8 @@ spring:
         uri: lb://transaction-service
         predicates:
         - Path=/transaction/**
-
+      - id: mobile-transaction
+        uri: lb://mobile-transaction-service
+        predicates:
+        - Path=/mobile-transaction/**
         

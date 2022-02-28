@@ -1,5 +1,6 @@
 package com.raghavrs.mybank.transaction_service.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -28,27 +29,31 @@ public class FundTransferServiceImpl implements FundTransferService{
 
 	@Override
 	public String fundTransfer(FundTransferDTO fundTransferDTO) throws CustomException {
-		String transactionId = null;
 		
 		if(accountServiceFeignClient.fundDeduction(fundTransferDTO)) {
-			Transaction transaction = new Transaction();
-			BeanUtils.copyProperties(fundTransferDTO, transaction);
-			transaction.setTransactionNumber("TRN" + Long.valueOf(new Random().nextLong(8999) + 1000));
-			transactionRepository.save(transaction);
-			transactionId = transaction.getTransactionNumber();
+			return saveTransaction(fundTransferDTO, "Account");
 		}
-		return transactionId;
+		return null;
 	}
 
 	@Override
 	public String fundTransferWithNumbers(@Valid FundTransferWithPhoneDTO fundTransferWithPhoneDTO) throws CustomException {
 		List<Long> accounts = accountServiceFeignClient.fundDeductionWithPhoneNumbers(fundTransferWithPhoneDTO);
 		if(!accounts.isEmpty()) {
-			return fundTransfer(new FundTransferDTO(fundTransferWithPhoneDTO.getAmount(),
+			return saveTransaction(new FundTransferDTO(fundTransferWithPhoneDTO.getAmount(),
 					accounts.get(0), accounts.get(1), 
-					fundTransferWithPhoneDTO.getComments(),
-					fundTransferWithPhoneDTO.getTransactionDate()));
+					fundTransferWithPhoneDTO.getComments()), "Mobile");
 		}
 		return null;
+	}
+	
+	private String saveTransaction(FundTransferDTO fundTransferDTO, String Transactiontype) {
+		Transaction transaction = new Transaction();
+		BeanUtils.copyProperties(fundTransferDTO, transaction);
+		transaction.setTransactionDate(LocalDateTime.now());
+		transaction.setTransactionNumber("TRN" + Long.valueOf(new Random().nextLong(8999) + 1000));
+		transaction.setTransactionMode(Transactiontype);
+		transactionRepository.save(transaction);
+		return transaction.getTransactionNumber();
 	}
 }

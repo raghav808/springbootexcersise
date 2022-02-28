@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import com.raghavrs.mybank.account_service.exception.CustomException;
 import com.raghavrs.mybank.account_service.model.dto.request.FundTransferDTO;
 import com.raghavrs.mybank.account_service.model.dto.request.FundTransferWithPhoneDTO;
+import com.raghavrs.mybank.account_service.model.dto.response.AccountDTO;
 import com.raghavrs.mybank.account_service.model.entity.Account;
 
 
@@ -20,6 +21,6 @@ public interface AccountService {
 
 	Account findByPhone(Long phoneNumber) throws CustomException;
 
-	Long addAccount(Long customerId);
+	AccountDTO addAccount(Long customerId);
 
 }

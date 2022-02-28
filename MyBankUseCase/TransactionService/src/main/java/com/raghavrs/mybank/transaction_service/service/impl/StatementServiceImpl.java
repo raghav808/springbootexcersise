@@ -28,8 +28,8 @@ public class StatementServiceImpl implements StatementService{
 		return null;
 	}
 
-	@Override
-	public List<AccountMonthlySummaryDTO> monthlyStatementWithPhoneNumber(Long phoneNumber, int year, int month) {
-		return transactionRepository.monthlyStatement(accountServiceFeignClient.findAccountByPhone(phoneNumber), year, month);
-	}
+//	@Override
+//	public List<AccountMonthlySummaryDTO> monthlyStatementWithPhoneNumber(Long phoneNumber, int year, int month) {
+//		return transactionRepository.monthlyStatement(accountServiceFeignClient.findAccountByPhone(phoneNumber), year, month);
+//	}
 }
