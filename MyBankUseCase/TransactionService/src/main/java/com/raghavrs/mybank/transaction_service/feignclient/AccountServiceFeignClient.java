@@ -23,8 +23,8 @@ public interface AccountServiceFeignClient {
 	public List<Long> fundDeductionWithPhoneNumbers(@RequestBody @Valid FundTransferWithPhoneDTO fundTransferWithPhoneDTO);
 	
 	@GetMapping("/check-account")
-	public Boolean findAccount(@RequestParam Long accountNumber);
+	public Boolean findAccount(@RequestParam(value = "accountNumber") Long accountNumber);
 	
 	@GetMapping("/check-account-by-phonenumber")
-	public Long findAccountByPhone(@RequestParam Long phoneNumber);
+	public Long findAccountByPhone(@RequestParam(value = "phoneNumber") Long phoneNumber);
 }

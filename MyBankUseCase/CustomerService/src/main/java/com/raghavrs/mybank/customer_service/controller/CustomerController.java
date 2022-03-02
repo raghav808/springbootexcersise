@@ -32,7 +32,7 @@ public class CustomerController {
 	}
 	
 	@GetMapping("/")
-	public Long findAccountByPhone(@RequestParam Long phoneNumber) throws CustomException {
+	public Long findAccountByPhone(@RequestParam(value = "phoneNumber") Long phoneNumber) throws CustomException {
 		return customerService.findByPhoneNumber(phoneNumber);
 	}
 }

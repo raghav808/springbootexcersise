@@ -35,17 +35,17 @@ public class AccountController {
 	}
 	
 	@GetMapping("/check-account")
-	public Boolean findAccount(@RequestParam Long accountNumber) throws CustomException {
+	public Boolean findAccount(@RequestParam(value = "accountNumber") Long accountNumber) throws CustomException {
 		return accountService.findByAccountNumber(accountNumber).getAccountNumber().equals(accountNumber);
 	}
 	
 	@GetMapping("/check-account-by-phonenumber")
-	public Long findAccountByPhone(@RequestParam Long phoneNumber) throws CustomException {
+	public Long findAccountByPhone(@RequestParam(value = "phoneNumber") Long phoneNumber) throws CustomException {
 		return accountService.findByPhone(phoneNumber).getAccountNumber();
 	}
 	
 	@PostMapping("/")
-	public AccountDTO addAccount(@RequestParam Long customerId) {
+	public AccountDTO addAccount(@RequestParam(value = "customerId") Long customerId) {
 		return accountService.addAccount(customerId);
 	}
 	

@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface CustomerServiceFeignClient {
 	
 	@GetMapping("/")
-	public Long findAccountByPhone(@RequestParam Long phoneNumber);
+	public Long findAccountByPhone(@RequestParam(value = "phoneNumber") Long phoneNumber);
 }

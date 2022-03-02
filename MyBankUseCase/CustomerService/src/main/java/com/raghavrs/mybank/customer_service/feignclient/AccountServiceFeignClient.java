@@ -10,5 +10,5 @@ import com.raghavrs.mybank.customer_service.model.dto.response.AccountDTO;
 public interface AccountServiceFeignClient {
 
 	@PostMapping("/")
-	public AccountDTO addAccount(@RequestParam Long customerId);
+	public AccountDTO addAccount(@RequestParam(value = "customerId") Long customerId);
 }
