@@ -9,4 +9,6 @@ public interface MobileStatementService {
 
 	List<AccountMonthlySummaryDTO> monthlyStatement(Long phoneNumber, int year, int month);
 
+	List<AccountMonthlySummaryDTO> lastFiveTransactions(Long phoneNumber);
+
 }

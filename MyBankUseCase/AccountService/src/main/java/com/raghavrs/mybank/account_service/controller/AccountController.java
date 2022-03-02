@@ -48,4 +48,9 @@ public class AccountController {
 	public AccountDTO addAccount(@RequestParam Long customerId) {
 		return accountService.addAccount(customerId);
 	}
+	
+	@GetMapping("/")
+	public String view() {
+		return "Hiiiii";
+	}
 }

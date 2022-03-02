@@ -17,7 +17,7 @@ import com.raghavrs.mybank.transaction_service.model.dto.request.FundTransferWit
 public interface AccountServiceFeignClient {
 	
 	@PostMapping("/fund-deduction")
-	public Boolean fundDeduction(FundTransferDTO fundTransferDTO);
+	public Boolean fundDeduction(@RequestBody @Valid FundTransferDTO fundTransferDTO);
 	
 	@PostMapping("/fund-deduction-with-phonenumber")
 	public List<Long> fundDeductionWithPhoneNumbers(@RequestBody @Valid FundTransferWithPhoneDTO fundTransferWithPhoneDTO);

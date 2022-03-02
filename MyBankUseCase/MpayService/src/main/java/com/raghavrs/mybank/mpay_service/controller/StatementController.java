@@ -17,7 +17,7 @@ public class StatementController {
 	@Autowired
 	private MobileStatementService statementService;
 	
-	@GetMapping("/statement")
+	@GetMapping("/statement12")
 	public List<AccountMonthlySummaryDTO> monthlyStatementWithPhoneNumber(@RequestParam Long phoneNumber, @RequestParam int year,
 			@RequestParam int month) throws CustomException {
 		if (!(month > 0 & month < 13)) {
@@ -32,9 +32,8 @@ public class StatementController {
 		return statementService.monthlyStatement(phoneNumber, year, month);
 	}
 	
-//	@GetMapping("/monthly-statement")
-//	public List<AccountMonthlySummaryDTO> monthlyStatement(@RequestParam Long accountNumber, @RequestParam int year,
-//			@RequestParam int month){
-//		return fundTransferService.monthyTransaction(accountNumber, year,month);
-//	}
+	@GetMapping("/statement")
+	public List<AccountMonthlySummaryDTO> lastFiveTransactions(@RequestParam Long phoneNumber){
+		return statementService.lastFiveTransactions(phoneNumber);
+	}
 }

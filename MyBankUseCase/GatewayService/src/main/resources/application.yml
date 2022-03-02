@@ -1,12 +1,12 @@
 server:
-  port: 8888
+  port: 8989
   
   
 #eureka 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:8787/eureka/
   instance:
     hostname: localhost
     

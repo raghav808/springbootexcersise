@@ -1,13 +1,9 @@
 package com.raghavrs.mybank.transaction_service.model.dto.request;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class FundTransferDTO {
 
