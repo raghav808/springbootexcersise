@@ -25,7 +25,7 @@ public class MobileStatementServiceImpl implements MobileStatementService{
 	@Override
 	public List<AccountMonthlySummaryDTO> lastFiveTransactions(Long phoneNumber) {
 		return transactionRepository.last5Transactions(phoneNumber).stream()
-				.sorted(Comparator.comparing(AccountMonthlySummaryDTO::getTransactionDate)).limit(5)
+				.sorted(Comparator.comparing(AccountMonthlySummaryDTO::getTransactionDate).reversed()).limit(5)
 				.collect(Collectors.toList());
 	}
 }

@@ -21,13 +21,13 @@ public class StatementController {
 	public List<AccountMonthlySummaryDTO> monthlyStatementWithPhoneNumber(@RequestParam Long phoneNumber, @RequestParam int year,
 			@RequestParam int month) throws CustomException {
 		if (!(month > 0 & month < 13)) {
-			throw new CustomException("Invalid value for month");
+			throw new CustomException(406, "Not Acceptable","Invalid value for month");
 		}
 		if (LocalDate.now().getYear() < (year-1)) {
-			throw new CustomException("Invalid value for year");
+			throw new CustomException(406, "Not Acceptable","Invalid value for year");
 		}
 		if (LocalDate.now().getYear() == year & LocalDate.now().getMonthValue() < month) {
-			throw new CustomException("Invalid value for month");
+			throw new CustomException(406, "Not Acceptable","Invalid value for month");
 		}
 		return statementService.monthlyStatement(phoneNumber, year, month);
 	}

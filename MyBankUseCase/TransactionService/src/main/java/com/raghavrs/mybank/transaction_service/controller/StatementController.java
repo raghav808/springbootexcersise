@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,13 +21,13 @@ public class StatementController {
 	public List<AccountMonthlySummaryDTO> monthlyStatement(@RequestParam Long accountNumber, @RequestParam int year,
 			@RequestParam int month) throws CustomException {
 		if (!(month > 0 & month < 13)) {
-			throw new CustomException("Invalid value for month");
+			throw new CustomException(406, "Not Acceptable","Invalid value for month");
 		}
-		if (year > LocalDate.now().getYear() & year < 0) {
-			throw new CustomException("Invalid value for year");
+		if (year > LocalDate.now().getYear() || year < 0) {
+			throw new CustomException(406, "Not Acceptable","Invalid value for year");
 		}
 		if (LocalDate.now().getYear() == year & month > LocalDate.now().getMonthValue()) {
-			throw new CustomException("Invalid value for month");
+			throw new CustomException(406, "Not Acceptable","Invalid value for month");
 		}
 		return statementService.monthlyStatement(accountNumber, year, month);
 	}

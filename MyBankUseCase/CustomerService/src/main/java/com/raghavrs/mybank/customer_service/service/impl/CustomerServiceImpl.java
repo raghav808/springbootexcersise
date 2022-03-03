@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus.Series;
 import org.springframework.stereotype.Service;
 
 import com.raghavrs.mybank.customer_service.exception.CustomException;
@@ -50,8 +51,8 @@ public class CustomerServiceImpl implements CustomerService{
 		if(optional.isPresent()) {
 			return optional.get().getId();
 		}else {
-			throw new CustomException("Customer is unavailable with Phone number - " + phoneNumber);
+			throw new CustomException(404, "Not Found","Customer is unavailable with Phone number - " + phoneNumber);
 		}
 	}
-
+//
 }

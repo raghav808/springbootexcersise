@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus.Series;
 import org.springframework.stereotype.Service;
 
 import com.raghavrs.mybank.account_service.exception.CustomException;
@@ -37,7 +38,7 @@ public class AccountServiceImpl implements AccountService{
 		Account fromAccount = null, toAccount = null;
 
 		if (fundTransferDTO.getFromAccount().equals(fundTransferDTO.getToAccount())) {
-			throw new CustomException("unable to transfer amount to same account");
+			throw new CustomException(405, "Method Not Allowed","unable to transfer amount to same account");
 		}
 		fromAccount = findByAccountNumber(fundTransferDTO.getFromAccount());
 		toAccount = findByAccountNumber(fundTransferDTO.getToAccount());
@@ -51,7 +52,7 @@ public class AccountServiceImpl implements AccountService{
 
 			return true;
 		} else
-			throw new CustomException("Insufficient balance to transfer");
+			throw new CustomException(405, "Method Not Allowed","Insufficient balance to transfer");
 	}
 
 	@Override
@@ -75,17 +76,17 @@ public class AccountServiceImpl implements AccountService{
 	@Override
 	public Account findByPhone(Long phoneNumber) throws CustomException {
 		return accountRepository.findByCustomerId(customerServiceFeignClient.findAccountByPhone(phoneNumber))
-				.orElseThrow(() -> new CustomException(
+				.orElseThrow(() -> new CustomException(404, "Not Found",
 						"Account is unavailable with Phone number - " + phoneNumber));
 	}
 	
 	@Override
 	public Account findByAccountNumber(Long accountNumber) throws CustomException {
 		return accountRepository.findByAccountNumber(accountNumber)
-				.orElseThrow(() -> new CustomException(
+				.orElseThrow(() -> new CustomException(404, "Not Found",
 						"Account is unavailable with Account number - " + accountNumber));
 	}
-
+//405, "Method Not Allowed",
 	@Override
 	public AccountDTO addAccount(Long customerId) {
 		Account account = new Account();

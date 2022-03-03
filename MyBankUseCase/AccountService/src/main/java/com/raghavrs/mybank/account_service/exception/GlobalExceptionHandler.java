@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+
 
 import feign.FeignException;
 
@@ -33,34 +35,35 @@ public class GlobalExceptionHandler {
 		return errorResponse;
 	}
 
-//	@ExceptionHandler(ConstraintViolationException.class)
-//	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-//	public ErrorResponse globalExceptionHandler(ConstraintViolationException exception, WebRequest request) {
-//		ErrorResponse errorResponse = new ErrorResponse();
-//		errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-//		errorResponse.setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.name());
-//		errorResponse.setTimestamp(LocalDateTime.now());
-//		errorResponse.setDetails(exception.getCause().getMessage());
-//		return errorResponse;
-//	}
-
 	@ExceptionHandler(CustomException.class)
-	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	public ErrorResponse customExceptionHandler(CustomException exception, WebRequest request) {
+	public ResponseEntity<ErrorResponse> customExceptionHandler(CustomException exception, WebRequest request) {
 		ErrorResponse errorResponse = new ErrorResponse();
-		errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-		errorResponse.setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.name());
+		errorResponse.setErrorCode(exception.getCode());
+		errorResponse.setErrorMsg(exception.getValue());
 		errorResponse.setTimestamp(LocalDateTime.now());
 		errorResponse.setDetails(exception.getMessage());
-		return errorResponse;
+		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.valueOf(errorResponse.getErrorCode()));
 	}
-
+	
 	@ExceptionHandler(FeignException.class)
-	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	public ErrorResponse feignClientExceptionHandler(FeignException exception, WebRequest request) {
+	public ResponseEntity<ErrorResponse> feignClientExceptionHandler(FeignException exception, WebRequest request) {
 		ErrorResponse errorResponse = new ErrorResponse();
-		errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-		errorResponse.setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.name());
+		
+		try{
+			errorResponse.setErrorCode(Integer.parseInt(
+					Arrays.stream(exception.getMessage().split("[/[{,}/]]")).map(x -> x.replace("\"", "").trim())
+							.filter(d -> d.startsWith("errorCode:")).toList().get(0).replace("errorCode:", "")));
+		}catch (Exception e) {
+			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+		}
+		try{
+			errorResponse.setErrorMsg(
+					Arrays.stream(exception.getMessage().split("[/[{,}/]]")).map(x -> x.replace("\"", "").trim())
+							.filter(d -> d.startsWith("errorMsg:")).toList().get(0).replace("errorMsg:", ""));
+		}catch (Exception e) {
+			errorResponse.setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.name());
+		}
+		
 		errorResponse.setTimestamp(LocalDateTime.now());
 		try{
 			errorResponse.setDetails(
@@ -69,7 +72,7 @@ public class GlobalExceptionHandler {
 		}catch (Exception e) {
 			errorResponse.setDetails(exception.getMessage());
 		}
-		return errorResponse;
+		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.valueOf(errorResponse.getErrorCode()));
 	}
 
 }

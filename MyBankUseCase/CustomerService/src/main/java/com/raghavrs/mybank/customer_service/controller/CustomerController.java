@@ -26,7 +26,7 @@ public class CustomerController {
 	@PostMapping("/")
 	public CustomerResponseDTO addCustomer(@RequestBody @Valid CustomerDTO customer) throws CustomException {
 		if (Period.between(customer.getDob(), LocalDate.now()).getYears() < 18) {
-			throw new CustomException("18 is the minimum Age limit");
+			throw new CustomException(400,"Bad Request","18 is the minimum Age limit");
 		}
 		return customerService.addCustomer(customer);
 	}
